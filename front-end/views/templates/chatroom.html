@@ -1,0 +1,91 @@
+<div class="container">
+    <div class="row" ng-controller="ChatController">
+        <div class="col-md-9">
+            <!-- chat content area -->
+
+            <div class="panel">
+                <form name="chatroom">
+
+                    <!-- start: room title & user typing hint -->
+
+                    <div class="header">
+                        <div class="text-center">
+                            <span ng-show="!isTyping" ng-bind="room.roomInfo"></span>
+                            <span ng-show="isTyping" ng-bind="typingUsername"></span>
+                            <span ng-show="isTyping"> is Typing</span>
+                        </div>
+                    </div>
+
+                    <!-- end: room title & user typing hint -->
+
+                    <!-- start: chat message content area -->
+
+                    <div class="content chat">
+                        <div class="chat-content" ng-repeat="m in message">
+                            <div class="chat-username" ng-class="{true: 'text-right', false: 'text-left'}[m.isSelf]">
+                                <span ng-bind="m.username"></span>
+                            </div>
+                            <div class="chat-date" ng-class="{true: 'text-right', false: 'text-left'}[m.isSelf]">
+                                <span ng-bind="m.date"></span>
+                            </div>
+                            <div class="chat-message">
+                                <p ng-bind-html="m.message"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- end: chat message content area -->
+
+                    <!-- start: input chat content area -->
+
+                    <div class="chat-operate-area content clearfix">
+                        <div class="chat-input-area">
+                            <textarea class="chat-input" placeholder="input something..." rows="2" ng-model="content" ng-change="typing()"></textarea>
+                        </div>
+                        <a href="" ng-click="sendMessage(content)">
+                            <span class="glyphicon glyphicon-send chat-submit-area"></span>
+                        </a>
+                    </div>
+
+                    <!-- end: input chat content area -->
+
+                </form>
+            </div>
+        </div><!-- /.col-md-9 -->
+
+        <div class="col-md-3">
+
+            <!-- room info & members info area -->
+
+            <div class="panel">
+                <div class="header">
+                    <a href="" ng-click="isShowRoomInfo=!isShowRoomInfo">房间信息</a>
+                    <a href="" ng-click="exit()" class="btn btn-warning btn-sm header-button">exit</a>
+                </div>
+
+                <div class="content" ng-show="isShowRoomInfo">
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <span>创建时间</span>
+                            </td>
+                            <td>
+                                <span ng-bind="room.createdDate | date:'yyyy-MM-dd hh:mm:ss'"></span>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="cm in room.currentMembers">
+                            <td>
+                                <span ng-bind="convertIdToUsername(cm, friends)"></span>
+                            </td>
+                            <td>
+                                <span ng-show="room.createrId == cm" class="badge">创建者</span>
+                                <span ng-show="room.createrId !== cm" class="badge">成员</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+        </div><!-- /.col-md-3 -->
+    </div>
+</div>

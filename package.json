@@ -1,0 +1,29 @@
+{
+  "name": "angular-node_login-signup",
+  "version": "1.0.0",
+  "description": "",
+  "main": "front-end/layout.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SPxiaomin/angular-node_login-signup.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SPxiaomin/angular-node_login-signup/issues"
+  },
+  "homepage": "https://github.com/SPxiaomin/angular-node_login-signup#readme",
+  "dependencies": {
+    "bcrypt": "^0.8.6",
+    "body-parser": "^1.15.1",
+    "cors": "^2.7.1",
+    "express": "^4.13.4",
+    "markdown": "^0.5.0",
+    "moment": "^2.13.0",
+    "mongoose": "^4.4.16",
+    "socket.io": "^1.4.6"
+  }
+}

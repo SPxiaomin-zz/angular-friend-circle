@@ -1,0 +1,77 @@
+- 细心分析用纸写出的逻辑关系，并进一步细细琢磨进一步的细节问题
+- auth.html 表单状态的分析
+- circlecontroller saveUserInfo 分析
+
+# To do
+
+1. node body-parser 学习
+    
+    - 看完github官方文档
+    - 理解 bodyParser.json() 作用
+    - 理解bodyParser.urlencoded({ extended: true }) 中 extended: true 作用
+
+✗ 2. express 错误处理 学习
+
+    - app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+
+        console.log(err);
+    });
+
+    - bcrypt.hash(temp.encryptedPassword, 10, function (err, encryptedPassword) {
+        if(err) return next(err);
+
+        return 的作用是什么, 不加可以吗? 停止执行此语句后函数中的剩余部分，一般情况下必须要加，否则可能会发生逻辑错误.
+
+3. auth.html 中 input autocomplete="off" 作用
+
+    chatroom.html 中 textarea autocomplete="off" 作用
+
+✗ 4. css outline 中的属性值哪一个没有设置的话就会造成没有效果
+
+    outline-style 是必须设置的属性值
+
+5. css outline 学习总结
+
+6. css 权重学习总结
+
+7. cors 请求头设置学习
+
+8. 运用 window.onsize 来重写扁平化风格博客的响应式导航头部
+
+9. auth.html 中下面的两个 col-md-6 表单列为什么没有和浮动元素默认的样式表现一样，出现向上向左对齐的现象？而是两个列出现在了同一水平线上。
+
+10. auth.html 中的 signinConfirmation 表单域的 isMatch 状态分析，以及 watchGroup 的学习
+
+11. 防止内部元素与外部元素外边距合并的几种方式 总结成博客文章(查找相关资料学习其他的知识)
+
+    外部元素
+
+        1. bfc overflow|float|::before,::after display: table
+        2. border|padding
+
+12. 后端路由路径中存在重复的路径部分，可否进行代码优化
+
+    /user/:userId /user/save
+
+13. mongodb: Playing with Arrays(学习完成这篇博客文章，并进行总结)
+
+    http://tgrall.github.io/blog/2015/04/21/mongodb-playing-with-arrays/
+
+    命令行 数组特定元素的 push 和 pop
+
+14. javascript Array.slice 参数为负数的情况学习 (/news/all 的时候从最后的数据开始取值的时候用到了这种情况)
+
+15. [] 空数组的 boolean 值为 true ，不懂。    如何测试一个非布尔值是 true 还是 false ？ !![]，还有什么方法
+
+16. 后端中各种用到的 mongoose CRUD 操作总结
+
+    update({}, {$set: {}}, {multi: true}) 更新所有匹配的数据
+
+工具
+
+1. vim 生成 html 注释符号 快捷方式插件
+
+2. vim 搜索时包含特殊字符，不需要转义的插件
+
+3. vim 折叠设置

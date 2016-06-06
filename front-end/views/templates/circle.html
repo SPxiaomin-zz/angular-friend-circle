@@ -1,0 +1,204 @@
+<div class="container">
+    <div class="row" ng-controller="CircleController">
+        <div class="col-md-5">
+
+            <!-- start: user info area -->
+
+            <div class="panel" ng-controller="UserInfoController">
+                <div class="header">
+                    <span>
+                        <a href="" ng-click="isShowSelfInfo=!isShowSelfInfo">用户信息</a>
+                    </span>
+                </div>
+                <div class="content" ng-show="isShowSelfInfo" ng-class="{true: 'panel-editing'}[isEdit]">
+                    <div class="operater operater-top">
+                        <a href="" ng-click="toggleEdit()">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                    </div>
+                    <div class="operater operater-bottom" ng-show="isEdit">
+                        <a href="" ng-click="saveUserInfo(username, signature)">
+                            <span class="glyphicon glyphicon-floppy-save save"></span>
+                        </a>
+                    </div>
+
+                    <h2>
+                        <span ng-bind="username" ng-show="!isEdit"></span>
+                        <input class="edit-area" type="text" ng-model="username" ng-show="isEdit">
+                    </h2>
+                    <i>
+                        <span ng-bind="signature" ng-show="!isEdit"></span>
+                        <input class="edit-area" type="text" ng-model="signature" ng-show="isEdit">
+                    </i>
+                </div>
+            </div>
+
+            <!-- end: user info area -->
+
+            <!-- start: friends list -->
+
+            <div class="panel">
+                <div class="header">
+                    <a href="" ng-click="isShowFriends=!isShowFriends">好友列表</a>
+                    <a href="" ng-show="friends.length" class="btn btn-primary btn-sm header-button" ng-click="isCreateRoom=!isCreateRoom">create room</a>
+                </div>
+
+                <!-- start: create room area -->
+
+                <div class="content" ng-show="isCreateRoom">
+                    <ul class="auth-list">
+                        <li class="input-normal">
+                            <span class="glyphicon glyphicon-bookmark"></span>
+                            <span>
+                                <input type="text" ng-model="roomInfo" placeholder="Room Info">
+                            </span>
+                        </li>
+                        <li class="input-normal">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span>
+                                <input type="text" ng-model="username" disabled>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- end: create room area -->
+
+                <!-- start: friends list area -->
+
+                <div class="content" ng-show="isShowFriends">
+                    <div ng-show="!friends.length">
+                        <span>快去搜搜好友吧～</span>
+                    </div>
+
+                    <table class="table text-center" ng-show="friends.length">
+                        <tr ng-repeat="f in friends | orderBy:'online':true">
+                            <td>
+                                <span class="glyphicon glyphicon-user" ng-class="{true: 'online', false: 'offline'}[f.online]"></span>
+                            </td>
+                            <td>
+                                <span ng-bind="f.username"></span>
+                            </td>
+                            <td ng-show="isCreateRoom">
+                                <a href="" ng-click="toggleCheck(f._id)">
+                                    <span ng-class="{true: 'glyphicon glyphicon-check', false: 'glyphicon glyphicon-unchecked'}[isChecked]"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- end: friends list area -->
+
+                <!-- start: finish create room area -->
+
+                <div class="header" ng-show="isCreateRoom">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    <a href="" class="btn btn-success btn-sm header-button" ng-if="roomInfo" ng-click="finish()">Finish</a>
+                    <a href="" class="btn btn-success btn-sm header-button" ng-if="!roomInfo" disabled>Finish</a>
+                </div>
+                <!-- end: finish create room area -->
+
+            </div>
+
+            <!-- end: friends list -->
+
+            <!-- start: rooms list -->
+
+            <div class="panel">
+                <div class="header">
+                    <span>
+                        <a href="" ng-click="isShowRooms=!isShowRooms">房间列表</a>
+                    </span>
+                </div>
+
+                <div class="content" ng-show="isShowRooms">
+                    <table class="table text-center">
+                        <tr ng-repeat="r in rooms | orderBy:'createdDate':true">
+                            <td>
+                                <span ng-bind="r.roomInfo"></span>
+                            </td>
+                            <td>
+                                <span ng-bind="convertIdToUsername(r.createrId, friends)"></span>
+                            </td>
+                            <td>
+                                <a href="" class="btn btn-primary btn-sm" ng-click="join(r._id)">join</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- end: rooms list -->
+        </div>
+
+        <div class="col-md-7">
+
+            <!-- start: write news area -->
+            <div class="panel">
+                <div class="header">
+                    <span>写点什么</span>
+                    <span>
+                        <a href="" class="btn btn-success btn-sm header-button" ng-click="createNews()" ng-if="writeContent">submit</a>
+                        <a href="" class="btn btn-success btn-sm header-button" ng-if="!writeContent" disabled>submit</a>
+                    </span>
+                    <a href="" ng-click="isMarkdown=!isMarkdown" class="text-right" style="float: right; margin-right: 10px;">
+                        <span>markdown </span>
+                        <span ng-class="{true: 'glyphicon glyphicon-check', false: 'glyphicon glyphicon-unchecked'}[isMarkdown]"></span>
+                    </a>
+                </div>
+
+                <div class="content">
+                    <textarea class="circle-write-area" ng-model="writeContent" placeholder="今天有哪些新鲜事？"></textarea>
+                </div>
+            </div>
+            <!-- end: write news area -->
+
+            <!-- start: news list area -->
+            <div class="panel" ng-class="{true: 'panel-editing'}[isEdit]" ng-repeat="nl in newsList | orderBy:'date':true">
+                <div class="content">
+                    <h3>
+                        <span ng-bind="convertIdToUsername(nl.publishId, friends)"></span>
+                    </h3>
+
+                    <div class="operater operater-top" ng-show="nl.publishId == selfId">
+                        <a href="" ng-click="toggleEdit()">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                        <a href="" ng-click="removeNews(nl._id)">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    </div>
+
+                    <div class="operater operater-bottom">
+                        <a href="" ng-click="supportNews(nl._id)" ng-show="!isEdit">
+                            <span class="glyphicon glyphicon-thumbs-up" ng-class="{true: 'news-support', false: 'news-normal'}[nl.support.indexOf(selfId) >= 0]" ng-bind="nl.support.length"></span>
+                        </a>
+                        <a href="" ng-click="saveNews(nl._id, nl.publishContent)" ng-show="isEdit">
+                            <span class="glyphicon glyphicon-floppy-save save"></span>
+                        </a>
+                    </div>
+
+                    <p ng-bind-html="nl.publishContent" ng-show="!isEdit"></p>
+
+                    <p>
+                        <textarea class="edit-area" ng-model="nl.publishContent" ng-show="isEdit" rows="5" style="width: 100%;"></textarea>
+                    </p>
+                    <i ng-bind="nl.date | date: 'yyyy-MM-dd hh:mm:ss'"></i>
+                </div>
+            </div>
+            <!-- end: news list area -->
+
+            <!-- start: load news bar -->
+            <div class="content load-news">
+                <a href="" ng-click="loadNextPage()" ng-if="hasNext">
+                    <span>加载下一页</span>
+                </a>
+                <a href="" ng-click="loadNextPage()" ng-if="!hasNext">
+                    <span>已经到底~\(≧▽≦)/~啦啦啦</span>
+                </a>
+            </div>
+            <!-- end: load news bar -->
+        </div>
+    </div>
+</div>

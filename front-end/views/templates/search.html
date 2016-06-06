@@ -1,0 +1,65 @@
+<div class="container" ng-controller="SearchFriendController">
+    <div class="jumbotron">
+        <div class="text-center">
+            <h1>搜搜</h1>
+        </div>
+
+        <!-- search area -->
+
+        <form>
+            <div class="search-friend-bar clearfix">
+                <div class="col-md-10">
+                    <input type="text" class="search-friend-input" ng-model="searchFriendContent" placeholder="Email or Nickname">
+                </div>
+                <div class="col-md-2">
+                    <!-- ng-disabled 没写，等 searchfriendcontroller 写完之后再测试，看是否可以进行阻止提交 -->
+                    <!-- 可以阻止 input 的提交功能, 但是不能够阻止 a 的提交功能 -->
+                    <input class="search-friend-submit" type="submit" ng-click="search()" value="Search" ng-disabled="!searchFriendContent">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- search result area -->
+
+    <table class="table table-hover table-bordered" ng-if="searchResult.length">
+        <tr class="text-center">
+            <td>
+                <span>#</span>
+            </td>
+            <td>
+                <span>昵称</span>
+            </td>
+            <td>
+                <span>签名</span>
+            </td>
+            <td>
+                <span>内容</span>
+            </td>
+            <td>
+                <span>#</span>
+            </td>
+        </tr>
+
+        <tr ng-repeat="sr in searchResult track by $index" class="text-center">
+            <td ng-bind="$index+1"></td>
+            <td ng-bind="sr.username"></td>
+            <td ng-bind="sr.signature"></td>
+            <td>
+                <input class="apply-content" type="text" ng-model="applyContent" placeholder="fill your apply content">
+            </td>
+            <td>
+                <a class="btn btn-primary btn-sm" ng-hide="friends.indexOf(sr._id) >= 0 || sr._id == selfId || isApplied" ng-click="pullRequest(sr._id, applyContent)" href="">friend request</a>
+                <a class="btn btn-primary btn-sm" ng-hide="friends.indexOf(sr._id) >= 0 || sr._id == selfId || !isApplied" href="" disabled>friend request</a>
+                <a class="btn btn-success btn-sm" disabled ng-show="friends.indexOf(sr._id) >= 0" href="">friend</a>
+                <a class="btn btn-success btn-sm" disabled ng-show="sr._id == selfId" href="">me</a>
+            </td>
+        </tr>
+    </table>
+
+    <!-- no search result area -->
+
+    <div class="text-center" ng-if="noSearchResult">
+        <h3>什么也没有搜到，尝试其他的昵称或邮箱</h3>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="container" ng-controller="HintController">
+    <h2>hint</h2>
+
+    <table class="table table-bordered table-hover text-center">
+        <tr>
+            <td>
+                <span>sender</span>
+            </td>
+            <td>
+                <span>reason</span>
+            </td>
+            <td>
+                <span>content</span>
+            </td>
+            <td>
+                <span>date</span>
+            </td>
+            <td>
+                <span>mark</span>
+            </td>
+            <td>
+                <span>operation</span>
+            </td>
+        </tr>
+        <tr ng-repeat="hl in hintsList | orderBy:'date':true | orderBy:'mark'">
+            <td>
+                <span ng-bind="hl.senderName"></span>
+            </td>
+            <td>
+                <span ng-bind="hl.hintType"></span>
+            </td>
+            <td class="hint-content">
+                <span ng-bind="hl.hintContent"></span>
+            </td>
+            <td>
+                <span ng-bind="hl.date"></span>
+            </td>
+            <td>
+                <a href="" ng-hide="isMarked || hl.mark" class="unmarked-hint" ng-click="mark(hl._id)">
+                    <span class="glyphicon glyphicon-bookmark"></span>
+                </a>
+                <a href="" ng-show="isMarked || hl.mark" class="marked-hint">
+                    <span class="glyphicon glyphicon-bookmark"></span>
+                </a>
+            </td>
+            <td>
+                <a class="btn btn-success btn-sm" href="" ng-hide="isAccepted || hl.accept" ng-click="accept(hl._id)">accept</a>
+                <a class="btn btn-success bnt-sm" href="" ng-show="isAccepted || hl.accept" disabled>accepted</a>
+            </td>
+        </tr>
+    </table>
+</div>

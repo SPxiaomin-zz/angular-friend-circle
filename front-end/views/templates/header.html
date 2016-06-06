@@ -1,0 +1,49 @@
+<header>
+    <nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="NavbarController">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js_header_navbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="" ui-sref="circle" ng-if="isAuth">Friends Circle</a>
+                <a class="navbar-brand" href="" ng-if="!isAuth">Friends Circle</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="js_header_navbar">
+                <ul class="nav navbar-nav">
+                    <li ui-sref-active="active" ng-if="isAuth">
+                        <a href="" ui-sref="search">搜搜</a>
+                    </li>
+                    <li ui-sref-active="active" ng-if="isAuth">
+                        <a href="" ui-sref="circle">好友圈</a>
+                    </li>
+                    <li ui-sref-active="active" ng-if="isAuth && isChatroomAccess">
+                        <a href="" ui-sref="chatroom">聊天室</a>
+                    </li>
+                </ul>
+
+                <div class="navbar-right" ng-controller="LogoutController">
+                    <button class="btn btn-danger btn-sm navbar-btn" ng-show="isAuth" ng-click="logout()">logout</button>
+                </div>
+
+                <div class="navbar-right" ng-controller="UserInfoController">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="" ui-sref="hint" ng-if="isAuth">
+                                <span class="glyphicon glyphicon-flag" ng-class="{'hint': totalHints>0}"><i ng-bind="totalHints" ng-show="totalHints>0"></i></span>
+                            </a>
+                            <a href="" ng-if="!isAuth">
+                                <span class="glyphicon glyphicon-flag"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a ng-bind="username" href=""></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

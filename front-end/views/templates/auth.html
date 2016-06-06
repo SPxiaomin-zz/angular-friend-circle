@@ -1,0 +1,123 @@
+<div class="container">
+    <div class="row jumbotron">
+        <div class="col-md-6">
+            <h1>Authentication</h1>
+            <p>Please authenticate first.</p>
+        </div>
+        <div class="col-md-6" ng-controller="LoginController">
+            <form name="loginForm">
+                <ul class="auth-list">
+                    <li ng-class="{true: 'input-error', false: 'input-normal'}[loginForm.email.$dirty && loginForm.email.$invalid]">
+                        <span>
+                            <span class="glyphicon glyphicon-envelope"></span>
+                            <input type="email" placeholder="Email" name="email" ng-model="loginEmail" required>
+                            <span class="error-message" ng-show="loginForm.email.$dirty && loginForm.email.$error.required">required</span>
+                            <span class="error-message" ng-show="loginForm.email.$dirty && loginForm.email.$error.email">error</span>
+                        </span>
+                        <span style="float: right">
+                            <span class="glyphicon glyphicon-ok-sign" ng-show="loginForm.email.$valid"></span>
+                            <span class="glyphicon glyphicon-remove-sign" ng-show="loginForm.email.$dirty && (loginForm.email.$error.required || loginForm.email.$error.email)"></span>
+                        </span>
+                    </li>
+                    <li ng-class="{true: 'input-error', false: 'input-normal'}[loginForm.password.$dirty && loginForm.password.$invalid]">
+                        <span>
+                            <span class="glyphicon glyphicon-lock"></span>
+                            <input type="password" placeholder="Password" name="password" ng-minlength="6" ng-maxlength="20" ng-model="loginPassword" required>
+                            <span ng-show="loginForm.password.$dirty && loginForm.password.$error.required">required</span>
+                            <span ng-show="loginForm.password.$dirty && (loginForm.password.$error.minlength || loginForm.password.$error.maxlength)">error</span>
+                        </span>
+                        <span style="float: right">
+                            <span class="glyphicon glyphicon-ok-sign" ng-show="loginForm.password.$valid"></span>
+                            <span class="glyphicon glyphicon-remove-sign" ng-show="loginForm.password.$dirty && (loginForm.password.$error.required || loginForm.password.$error.password || loginForm.password.$error.maxlength || loginForm.password.$error.minlength)"></span>
+                        </span>
+                    </li>
+                    <li>
+                        <div class="clearfix">
+                            <span class="col-sm-6">
+                                <input class="auth-login" type="submit" value="login" ng-click="login()" ng-disabled="loginForm.$invalid">
+                            </span>
+                            <span class="col-sm-6">
+                                <input class="auth-show-signin" type="button" value="signin" ng-click="toggleSignin()">
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+
+        <div ng-if="isSignin" ng-controller="SigninController">
+            <form name="signinForm">
+                <div class="col-md-6">
+                    <ul class="auth-list">
+                        <li ng-class="{true: 'input-error', false: 'input-normal'}[signinForm.username.$dirty && signinForm.username.$invalid]">
+                            <span>
+                                <span class="glyphicon glyphicon-user"></span>
+                                <input type="text" placeholder="Username" ng-minlength="6" ng-maxlength="20" name="username" ng-model="signinUsername" required>
+                                <span ng-show="signinForm.username.$dirty && signinForm.username.$error.required">required</span>
+                                <span ng-show="signinForm.username.$drity && (signinForm.username.$error.minlength || signinForm.username.$error.maxlength)">error</span>
+                            </span>
+                            <span style="float: right">
+                                <span class="glyphicon glyphicon-ok-sign" ng-show="signinForm.username.$valid"></span>
+                                <span class="glyphicon glyphicon-remove-sign" ng-show="signinForm.username.$dirty && (signForm.username.$error.required || signinForm.username.$error.minlength || signinForm.username.$error.maxlength)"></span>
+                            </span>
+                        </li>
+                        <li ng-class="{true: 'input-error', false: 'input-normal'}[signinForm.password.$dirty && signinForm.password.$invalid]">
+                            <span>
+                                <span class="glyphicon glyphicon-lock"></span>
+                                <input type="password" placeholder="Password" ng-minlength="6" ng-maxlength="20" name="password" ng-model="signinPassword" required>
+                                <span ng-show="signinForm.password.$dirty && signinForm.password.$error.required">required</span>
+                                <span ng-show="signinForm.password.$dirty && (signinForm.password.$error.minlength || signForm.password.$error.maxlength)">error</span>
+                            </span>
+                            <span style="float: right">
+                                <span class="glyphicon glyphicon-ok-sign" ng-show="signinForm.password.$valid"></span>
+                                <span class="glyphicon glyphicon-remove-sign" ng-show="signinForm.password.$dirty && (signinForm.password.$error.required || signinForm.password.$error.minlength || signinForm.password.$error.maxlength)"></span>
+                            </span>
+                        </li>
+                        <li ng-class="{true: 'input-error', false: 'input-normal'}[signinForm.confirmation.$dirty && !isMatch]">
+                            <span>
+                                <span class="glyphicon glyphicon-lock"></span>
+                                <input type="password" placeholder="Confirmation" name="confirmation" ng-model="signinConfirmation">
+                            </span>
+                            <span style="float: right">
+                                <span class="glyphicon glyphicon-ok-sign" ng-show="signinForm.confirmation.$dirty && isMatch"></span>
+                                <span class="glyphicon glyphicon-remove-sign" ng-show="signinForm.confirmation.$dirty && !isMatch"></span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-6">
+                    <ul class="auth-list">
+                        <li ng-class="{true: 'input-error', false: 'input-normal'}[signinForm.email.$dirty && signinForm.email.$invalid]">
+                            <span>
+                                <span class="glyphicon glyphicon-envelope"></span>
+                                <input type="email" placeholder="Email" name="email" ng-model="signinEmail" required>
+                                <span ng-show="signinForm.email.$dirty && signinForm.email.$error.required">required</span>
+                                <span ng-show="signinForm.email.$dirty && signinForm.email.$error.email">error</span>
+                            </span>
+                            <span style="float: right">
+                                <span class="glyphicon glyphicon-ok-sign" ng-show="signinForm.email.$valid"></span>
+                                <span class="glyphicon glyphicon-remove-sign" ng-show="signinForm.email.$dirty && (signinForm.email.$error.required || signinForm.email.$error.email)"></span>
+                            </span>
+                        </li>
+                        <li ng-class="{true: 'input-error', false: 'input-normal'}[signinForm.signature.$dirty && signinForm.signature.$invalid]">
+                            <span>
+                                <span class="glyphicon glyphicon-book"></span>
+                                <input type="text" placeholder="Signature" ng-maxlength="40" name="signature" ng-model="signinSignature" required>
+                                <span ng-show="signinForm.signature.$dirty && signinForm.signature.$error.required">required</span>
+                                <span ng-show="signinForm.signature.$dirty && signinForm.signature.$error.maxlength">too long</span>
+                            </span>
+                            <span style="float: right">
+                                <span class="glyphicon glyphicon-ok-sign" ng-show="signinForm.signature.$valid"></span>
+                                <span class="glyphicon glyphicon-remove-sign" ng-show="signinForm.signature.$dirty && (signinForm.signature.$error.required || signinForm.signature.$error.maxlength)"></span>
+                            </span>
+                        </li>
+                        <li>
+                            <input class="auth-signin" type="submit" ng-disabled="signinForm.$invalid" ng-click="signin()" value="signin">
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
