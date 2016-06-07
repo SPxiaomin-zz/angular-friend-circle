@@ -649,7 +649,7 @@ app
 
             socket.on('update rooms', function(members) {
 
-                if (AuthFactory.checkAuth('USER').id) {
+                if (AuthFactory.checkAuth('USER')) {
 
                     if (members.indexOf(AuthFactory.getAuth('USER').id) >= 0) {
 
