@@ -71,7 +71,7 @@ app
             });
         };
     }])
-    .controller('SigninController', ['$scope', '$rootScope', 'AuthFactory', function($scope, $rootScope, AuthFactory) {
+    .controller('SigninController', ['$scope', '$rootScope', 'AuthFactory', 'socket', function($scope, $rootScope, AuthFactory, socket) {
         $scope.$watchGroup(['signinPassword', 'signinConfirmation'], function(newVal) {
             $scope.isMatch = newVal[0] === newVal[1];
         });
